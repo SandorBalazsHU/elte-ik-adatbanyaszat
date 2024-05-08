@@ -128,6 +128,14 @@ ENV/
 env.bak/
 venv.bak/
 
+# Jupiter
+.ipynb_checkpoints
+.ipynb_checkpoints/
+
+# LLM Model
+dlite-v2-1_5b
+dlite-v2-1_5b/
+
 # Spyder project settings
 .spyderproject
 .spyproject
