@@ -1,0 +1,42 @@
+Előfeltételek:
+	Rendszergazdai jog ajánlott
+	Python <= 3.10.11
+	Nvdia driver
+	Cuda
+	Cuda toolkit and devkit
+//Másik meghajtón dolgozunk, minden nagy méretű.
+d:
+cd D:\elte-ik-adatbanyaszat
+
+//Python ellenőrzés
+python --version
+
+//Cuda ellenőrzés
+nvidia-smi
+nvcc --version
+
+Szedjük le a modellt.
+git clone https://huggingface.co/aisquared/dlite-v2-1_5b
+
+//Python virtuális környezetben dolgozunk, hogy ne szemeteljük a gépet, többször próbálkozhassunk.
+python -m venv venv
+venv\Scripts\activate
+
+//Ajánlott telepítés a cikk szerint, sajnos CPU only, javítsuk.
+pip install "accelerate>=0.16.0,<1" "transformers[torch]>=4.28.1,<5" "torch>=1.13.1,<2"
+
+//Telepítsünk rá 2.2-es torch-ot CUDA 12.1-el.
+pip install torch==2.2.0+cu121 -f https://download.pytorch.org/whl/torch_stable.html
+
+//Ellenőrizzük a torch gpu-t.
+import torch
+print(torch.cuda.is_available())
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+print(device)
+torch.zeros(1).cuda()
+
+//Telepítsünk Jupitert, hogy könnyebb dolgunk legyen
+pip install jupyter
+
+//Indítsuk a Jupitert
+jupyter notebook
