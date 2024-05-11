@@ -8,7 +8,7 @@ function process_req(api_url, selectionText) {
       })
       .then(response => response.json())
       .then(data => {
-        chrome.storage.local.set({result: data});
+        chrome.storage.local.set({api_response: data});
         chrome.action.setPopup({popup: "popup.html"});
         console.log(data);
       })
