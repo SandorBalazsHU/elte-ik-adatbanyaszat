@@ -1,9 +1,9 @@
 {
     "manifest_version": 3,
-    "name": "Text Selection Extension",
+    "name": "ELTE LLM Text processor",
     "version": "1.0",
-    "description": "Allows you to send selected text to a REST API and display the result.",
-    "permissions": ["activeTab", "contextMenus"],
+    "description": "Allows you to process text with LLM from your browser.",
+    "permissions": ["activeTab", "contextMenus", "storage"],
     "host_permissions": ["http://127.0.0.1:5000/*"],
     "background": {
       "service_worker": "background.js"
@@ -17,4 +17,3 @@
       }
     }
   }
-  
