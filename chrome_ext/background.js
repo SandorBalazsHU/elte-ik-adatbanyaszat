@@ -1,3 +1,11 @@
+function addObject(newObject) {
+    chrome.storage.local.get({api_responses: []}, function(data) {
+        var api_responses = data.api_responses;
+        api_responses.push(newObject);
+        chrome.storage.local.set({api_responses: api_responses});
+    });
+}
+
 function process_req(api_url, selectionText) {
     fetch(api_url, {
         method: 'POST',
@@ -8,9 +16,7 @@ function process_req(api_url, selectionText) {
       })
       .then(response => response.json())
       .then(data => {
-        chrome.storage.local.set({api_response: data});
-        chrome.action.setPopup({popup: "popup.html"});
-        console.log(data);
+        addObject(data);
       })
       .catch(error => {
         console.error('Error:', error);
@@ -43,19 +49,20 @@ chrome.runtime.onInstalled.addListener(function() {
   
   chrome.contextMenus.onClicked.addListener(function(info, tab) {
     if (info.menuItemId === "sum") {
-      const selectionText = info.selectionText;
-      process_req("http://127.0.0.1:5000/sum", selectionText);
+        const selectionText = info.selectionText;
+        process_req("http://127.0.0.1:5000/sum", selectionText);
     }
     if (info.menuItemId === "key") {
         const selectionText = info.selectionText;
         process_req("http://127.0.0.1:5000/key", selectionText);
     }
     if (info.menuItemId === "title") {
-    const selectionText = info.selectionText;
-    process_req("http://127.0.0.1:5000/title", selectionText);
+        const selectionText = info.selectionText;
+        process_req("http://127.0.0.1:5000/title", selectionText);
     }
     if (info.menuItemId === "length") {
-    const selectionText = info.selectionText;
-    process_req("http://127.0.0.1:5000/length", selectionText);
+        const selectionText = info.selectionText;
+        process_req("http://127.0.0.1:5000/length", selectionText);
     }
+    chrome.sidePanel.open({ windowId: tab.windowId });
   });

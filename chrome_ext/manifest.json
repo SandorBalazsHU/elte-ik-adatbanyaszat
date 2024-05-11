@@ -3,10 +3,13 @@
     "name": "ELTE LLM Text processor",
     "version": "1.0",
     "description": "Allows you to process text with LLM from your browser.",
-    "permissions": ["activeTab", "contextMenus", "storage"],
+    "permissions": ["activeTab", "contextMenus", "storage", "sidePanel"],
     "host_permissions": ["http://127.0.0.1:5000/*"],
     "background": {
       "service_worker": "background.js"
+    },
+    "side_panel": {
+        "default_path": "sidepanel.html"
     },
     "action": {
       "default_popup": "popup.html",
