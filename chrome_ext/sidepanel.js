@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
         var resultDiv = document.getElementById('result');
         for (let i = objects.length - 1; i >= 0; i--) {
             var pTag = document.createElement('p');
-            pTag.innerHTML  = `Response ${i + 1}: <br> ${objects[i].response}`;
+            pTag.classList.add("responseListItem");
+            pTag.innerHTML  = `<u><b>Response ${i + 1}:</b></u> [ task: ${objects[i].type} ] <br> ${objects[i].response}<hr>`;
             resultDiv.appendChild(pTag);
         };
     });

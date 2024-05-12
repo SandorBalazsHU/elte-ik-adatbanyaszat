@@ -6,7 +6,7 @@ function addObject(newObject) {
     });
 }
 
-function process_req(api_url, selectionText) {
+function process_req(api_url, selectionText, type) {
     fetch(api_url, {
         method: 'POST',
         headers: {
@@ -16,6 +16,8 @@ function process_req(api_url, selectionText) {
       })
       .then(response => response.json())
       .then(data => {
+        data.type = type;
+        console.log(data);
         addObject(data);
       })
       .catch(error => {
@@ -26,12 +28,12 @@ function process_req(api_url, selectionText) {
 
 chrome.runtime.onInstalled.addListener(function() {
     chrome.contextMenus.create({
-      id: "sum",
+      id: "summary",
       title: "Give summary",
       contexts: ["selection"]
     });
     chrome.contextMenus.create({
-        id: "key",
+        id: "keywords",
         title: "Give keywords",
         contexts: ["selection"]
     });
@@ -41,28 +43,28 @@ chrome.runtime.onInstalled.addListener(function() {
         contexts: ["selection"]
     });
     chrome.contextMenus.create({
-        id: "length",
+        id: "count",
         title: "Count tokens",
         contexts: ["selection"]
     });
   });
   
   chrome.contextMenus.onClicked.addListener(function(info, tab) {
-    if (info.menuItemId === "sum") {
+    if (info.menuItemId === "summary") {
         const selectionText = info.selectionText;
-        process_req("http://127.0.0.1:5000/sum", selectionText);
+        process_req("http://127.0.0.1:5000/sum", selectionText, "sum");
     }
-    if (info.menuItemId === "key") {
+    if (info.menuItemId === "keywords") {
         const selectionText = info.selectionText;
-        process_req("http://127.0.0.1:5000/key", selectionText);
+        process_req("http://127.0.0.1:5000/key", selectionText, "key");
     }
     if (info.menuItemId === "title") {
         const selectionText = info.selectionText;
-        process_req("http://127.0.0.1:5000/title", selectionText);
+        process_req("http://127.0.0.1:5000/title", selectionText, "title");
     }
-    if (info.menuItemId === "length") {
+    if (info.menuItemId === "count") {
         const selectionText = info.selectionText;
-        process_req("http://127.0.0.1:5000/length", selectionText);
+        process_req("http://127.0.0.1:5000/length", selectionText, "length");
     }
     chrome.sidePanel.open({ windowId: tab.windowId });
   });
