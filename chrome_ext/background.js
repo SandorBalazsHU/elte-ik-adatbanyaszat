@@ -7,22 +7,26 @@ function addObject(newObject) {
 }
 
 function process_req(api_url, selectionText, type) {
-    fetch(api_url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ text: selectionText })
-      })
-      .then(response => response.json())
-      .then(data => {
-        data.type = type;
-        console.log(data);
-        addObject(data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
+  const startTime = Date.now();
+  fetch(api_url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ text: selectionText })
+    })
+    .then(response => response.json())
+    .then(data => {
+      const endTime = Date.now();
+      const responseTime = endTime - startTime;
+      data.type = type;
+      data.ping = responseTime;
+      //console.log(data);
+      addObject(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+  });
 }
 
 
